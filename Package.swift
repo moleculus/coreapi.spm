@@ -5,24 +5,18 @@ import PackageDescription
 
 let package = Package(
     name: "CoreAPI",
+    platforms: [
+        .iOS(.v12)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "CoreAPI",
-            targets: ["CoreAPI"]),
+        .library(name: "CoreAPI", targets: ["CoreAPI"])
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
+        .package(path: "BuildSettings")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
-            name: "CoreAPI",
-            dependencies: []),
-        .testTarget(
-            name: "CoreAPITests",
-            dependencies: ["CoreAPI"]),
+        .target(name: "CoreAPI", dependencies: ["Alamofire", "BuildSettings"]),
+        .testTarget(name: "CoreAPITests",dependencies: ["CoreAPI"])
     ]
 )
