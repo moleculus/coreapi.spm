@@ -1,4 +1,3 @@
-import BuildSettings
 import Foundation
 import Alamofire
 
@@ -14,7 +13,7 @@ extension APIService {
     // MARK: - Public Methods.
     
     @discardableResult
-    public func send<R: Request>(request: R, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
+    public func send<R: Request>(request: R, isAPILogginEnabled: Bool = false, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
         let requestURL = baseURL + request.path
         let httpMethod = HTTPMethod(method: request.method)
         let dataRequest = AF.request(requestURL, method: httpMethod, parameters: request.nonNilParameters, encoding: request.encoding, headers: headers)
@@ -29,7 +28,7 @@ extension APIService {
             completion?(result)
         }
         
-        if BuildSettings.isAPILogginEnabled {
+        if isAPILogginEnabled {
             Logger().log(request: request, dataRequest: dataRequest)
         }
             

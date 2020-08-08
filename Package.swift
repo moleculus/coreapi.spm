@@ -12,11 +12,10 @@ let package = Package(
         .library(name: "CoreAPI", targets: ["CoreAPI"])
     ],
     dependencies: [
-        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
-        .package(path: "BuildSettings")
+        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0")
     ],
     targets: [
-        .target(name: "CoreAPI", dependencies: ["Alamofire", "BuildSettings"]),
+        .target(name: "CoreAPI", dependencies: ["Alamofire"]),
         .testTarget(name: "CoreAPITests",dependencies: ["CoreAPI"])
     ]
 )
