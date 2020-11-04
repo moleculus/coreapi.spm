@@ -13,7 +13,7 @@ extension APIService {
     // MARK: - Public Methods.
     
     @discardableResult
-    public func send<R: Request>(request: R, isAPILogginEnabled: Bool = false, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
+    public func send<R: Request>(request: R, isAPILoggingEnabled: Bool, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
         let requestURL = baseURL + request.path
         let httpMethod = HTTPMethod(method: request.method)
         let dataRequest = AF.request(requestURL, method: httpMethod, parameters: request.nonNilParameters, encoding: request.encoding, headers: headers)
@@ -28,14 +28,14 @@ extension APIService {
             completion?(result)
         }
         
-        if isAPILogginEnabled {
+        if isAPILoggingEnabled {
             Logger().log(request: request, dataRequest: dataRequest)
         }
             
         return dataRequest
     }
     
-    public func upload<R: Request>(request: R, then completion: @escaping (_ uploadRequest: UploadRequest?, _ result: Result<R.SuccessResponse, R.FailureResponse>?, _ uploadProgress: Double) -> Void) {
+    public func upload<R: Request>(request: R, isAPILoggingEnabled: Bool, then completion: @escaping (_ uploadRequest: UploadRequest?, _ result: Result<R.SuccessResponse, R.FailureResponse>?, _ uploadProgress: Double) -> Void) {
         let requestURL = baseURL + request.path
         let httpMethod = HTTPMethod(method: request.method)
         let multipartFormData = self.multipartFormData(for: request)
@@ -51,7 +51,11 @@ extension APIService {
             if case .failure (let error) = result {
                 self.errorHandler.handleError(error, in: request)
             }
-                        
+                    
+            if isAPILoggingEnabled {
+                Logger().log(request: request, uploadRequest: uploadRequest)
+            }
+            
             completion(uploadRequest, result, 1)
         }
     }

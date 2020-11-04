@@ -30,10 +30,3 @@ extension Request {
         }
     }
 }
-
-public extension Request {
-    @discardableResult
-    func send(using service: APIService, then completion: ((_ result: Result<SuccessResponse, FailureResponse>) -> Void)?) -> DataRequest {
-        return service.send(request: self, then: completion)
-    }
-}

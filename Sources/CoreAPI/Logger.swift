@@ -34,4 +34,16 @@ struct Logger {
         }
     }
     
+    func log<R: Request>(request: R, uploadRequest: UploadRequest) {
+        uploadRequest.responseJSON {
+            print("\n===")
+            print(request.path)
+            print(uploadRequest.request?.headers as Any)
+            print(request.nonNilParameters as Any)
+            print("---")
+            print($0.result)
+            print("===\n")
+        }
+    }
+    
 }
