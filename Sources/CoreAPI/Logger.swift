@@ -26,6 +26,7 @@ struct Logger {
     func log<R: Request>(request: R, dataRequest: DataRequest) {
         dataRequest.responseJSON {
             print("\n===")
+            print(dataRequest.request?.headers as Any)
             print(request.path)
             print(request.nonNilParameters as Any)
             print("---")
