@@ -13,10 +13,11 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
-        .package(name: "SDWebImage", url: "https://github.com/SDWebImage/SDWebImage", from: "5.0.0")
+        .package(name: "SDWebImage", url: "https://github.com/SDWebImage/SDWebImage", from: "5.0.0"),
+        .package(name: "KeychainAccess", url: "https://github.com/kishikawakatsumi/keychainaccess", from: "4.0.0"),
     ],
     targets: [
-        .target(name: "CoreAPI", dependencies: ["Alamofire", "SDWebImage"]),
+        .target(name: "CoreAPI", dependencies: ["Alamofire", "SDWebImage", "KeychainAccess"]),
         .testTarget(name: "CoreAPITests",dependencies: ["CoreAPI"])
     ]
 )
