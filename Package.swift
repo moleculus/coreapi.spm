@@ -12,10 +12,11 @@ let package = Package(
         .library(name: "CoreAPI", targets: ["CoreAPI"])
     ],
     dependencies: [
-        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0")
+        .package(name: "Alamofire", url: "https://github.com/Alamofire/Alamofire", from: "5.0.0"),
+        .package(name: "SDWebImage", url: "https://github.com/SDWebImage/SDWebImage", from: "5.0.0")
     ],
     targets: [
-        .target(name: "CoreAPI", dependencies: ["Alamofire"]),
+        .target(name: "CoreAPI", dependencies: ["Alamofire", "SDWebImage"]),
         .testTarget(name: "CoreAPITests",dependencies: ["CoreAPI"])
     ]
 )
