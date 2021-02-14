@@ -16,6 +16,7 @@ extension APIService {
     public func send<R: Request>(request: R, isAPILoggingEnabled: Bool, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
         let requestURL = baseURL + request.path
         let httpMethod = HTTPMethod(method: request.method)
+        let start = Date()
         let dataRequest = AF.request(requestURL, method: httpMethod, parameters: request.nonNilParameters, encoding: request.encoding, headers: headers)
         
         dataRequest.responseData {
@@ -29,7 +30,7 @@ extension APIService {
         }
         
         if isAPILoggingEnabled {
-            Logger().log(request: request, dataRequest: dataRequest)
+            Logger().log(request: request, dataRequest: dataRequest, start: start)
         }
             
         return dataRequest

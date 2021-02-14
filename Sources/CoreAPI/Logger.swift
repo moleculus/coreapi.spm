@@ -23,9 +23,10 @@ struct Logger {
         }
     }
     
-    func log<R: Request>(request: R, dataRequest: DataRequest) {
+    func log<R: Request>(request: R, dataRequest: DataRequest, start: Date) {
         dataRequest.responseJSON {
             print("\n===")
+            print("Executed in (seconds) = ", Date().timeIntervalSince1970 - start.timeIntervalSince1970)
             print(dataRequest.request?.headers as Any)
             print(request.path)
             print(request.nonNilParameters as Any)
