@@ -6,6 +6,10 @@ public class ImageLoader {
 
     private var operation: SDWebImageOperation?
 
+    // MARK: - Initialization.
+    
+    public init() {}
+    
     // MARK: - Public.
 
     public func cancelRequest() {
