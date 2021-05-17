@@ -13,7 +13,7 @@ extension APIService {
     // MARK: - Public Methods.
     
     @discardableResult
-    public func send<R: Request>(request: R, isAPILoggingEnabled: Bool, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
+    public func send<R: Request>(request: R, loggingDepth: Logger.Depth, then completion: ((_ result: Result<R.SuccessResponse, R.FailureResponse>) -> Void)?) -> DataRequest {
         let requestURL = baseURL + request.path
         let httpMethod = HTTPMethod(method: request.method)
         let start = Date()
@@ -29,10 +29,7 @@ extension APIService {
             completion?(result)
         }
         
-        if isAPILoggingEnabled {
-            Logger().log(request: request, dataRequest: dataRequest, start: start)
-        }
-            
+        Logger().log(request: request, dataRequest: dataRequest, start: start, depth: loggingDepth)    
         return dataRequest
     }
     

@@ -1,17 +1,11 @@
 import Foundation
 import Alamofire
 
-struct Logger {
-    
-    // MARK: - Properties.
-    
-    private let isEnabled = true
+public struct Logger {
     
     // MARK: - Public Methods.
     
     func log(_ failure: Failure) {
-        guard isEnabled else { return }
-        
         switch failure {
         case .decoding (let model, let error, let path):
             print("\n------\n")
@@ -23,16 +17,26 @@ struct Logger {
         }
     }
     
-    func log<R: Request>(request: R, dataRequest: DataRequest, start: Date) {
+    func log<R: Request>(request: R, dataRequest: DataRequest, start: Date, depth: Depth) {
         dataRequest.responseJSON {
-            print("\n===")
-            print("Executed in (seconds) = ", Date().timeIntervalSince1970 - start.timeIntervalSince1970)
-            print(dataRequest.request?.headers as Any)
-            print(request.path)
-            print(request.nonNilParameters as Any)
-            print("---")
-            print($0.result)
-            print("===\n")
+            switch depth {
+            case .off:
+                break
+            case .path:
+                print("\n===")
+                print("Executed in (seconds) = ", Date().timeIntervalSince1970 - start.timeIntervalSince1970)
+                print((dataRequest.request?.httpMethod?.description ?? "") + ": " + request.path)
+                print("===\n")
+            case .full:
+                print("\n===")
+                print("Executed in (seconds) = ", Date().timeIntervalSince1970 - start.timeIntervalSince1970)
+                print(dataRequest.request?.headers as Any)
+                print((dataRequest.request?.httpMethod?.description ?? "") + ": " + request.path)
+                print(request.nonNilParameters as Any)
+                print("---")
+                print($0.result)
+                print("===\n")
+            }
         }
     }
     
@@ -48,4 +52,12 @@ struct Logger {
         }
     }
     
+}
+
+extension Logger {
+    public enum Depth {
+        case off
+        case path
+        case full
+    }
 }
